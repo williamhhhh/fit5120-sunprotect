@@ -1,70 +1,72 @@
 <template>
-    <div class="rating-container">
-      <h1 class="text-center">Rate My Web Application</h1>
-      <form @submit.prevent="submitRating">
-        <div class="mb-3">
-          <label for="rating" class="form-label">Select Your Rating (1-5):</label>
-          <input
-            type="number"
-            id="rating"
-            v-model.number="currentRating"
-            class="form-control"
-            min="1"
-            max="5"
-            required
-          />
-        </div>
-        <button type="submit" class="btn btn-primary w-100">Submit</button>
-      </form>
   
-      <div class="mt-5 text-center">
-        <h3>Ratings History:</h3>
-        <ul class="list-group">
-          <li v-for="(rating, index) in ratings" :key="index" class="list-group-item">
-            <strong>
-              {{ rating.username }}
-            </strong>
-            : {{ rating.score }} / 5
-          </li>
-        </ul>
-        <p v-if="ratings.length === 0">No ratings yet.</p>
+    <div class="card mb-2">
+      <div class="row g-0">
+        <div class="col-md-6">
+          <div :class="card-body">
+            <h5 class="card-title">Melanoma & UV Impact : The Hidden Danger in Sun Exposure</h5>
+            <h6 class="card-subtitle mb-2 text-muted" style="font-weight: normal;">Stay Informed, Stay Protected</h6>
+            <p class="card-text" style="font-weight: 300;">Protecting your skin from UV rays can prevent 95% of melanoma cases. Small actions today can prevent big risks tomorrow—every precaution matters.</p>
+            <p class="card-text" style="font-weight: 300;">Melanoma is the deadliest form of skin cancer, with over 18,000 new cases expected in Australia in 2023, making up 11% of all cancer diagnoses. Despite a 94% survival rate over five years, early detection and prevention are crucial. UV exposure is the primary cause, increasing the risk for everyone, regardless of skin type. With 1 in 17 Australians likely to develop melanoma by age 85 and over 1,300 deaths projected this year, protecting your skin from the sun isn’t optional—it’s essential.</p>
+          </div>
+        </div>
+          <div class="col-md-6">
+            <img src="https://i.imgur.com/DM1sHjq.png" class="img-fluid rounded-start h-100 w-100" style="object-fit: contain;" alt="...">
+        </div>
       </div>
     </div>
+
+    <div class="card mb-3">
+      <div class="row g-0">
+        <div class="col-md-6">
+          <div :class="card-body">
+            <h5 class="card-title">Sun Safety for Every Shade</h5>
+            <h6 class="card-subtitle mb-2 text-muted" style="font-weight: normal;">Your skin is unique- so is your sun protection!</h6>
+            <p class="card-text" style="font-weight: 300;">Sun safety isn’t one-size-fits-all. New research divides skin types into three groups, offering tailored advice on balancing UV protection and vitamin D needs</p>
+            <p class="card-text" style="font-weight: 300;"></p>
+          </div>
+        </div>
+          <div class="col-md-6">
+            <img src="https://i.imgur.com/CrKN24i.png" class="img-fluid rounded-start h-100 w-100" style="object-fit: contain;" alt="...">
+          </div>
+      </div>
+    </div>
+
   </template>
   
   <script setup>
-  import { ref, onMounted } from 'vue'
+  // import { ref, onMounted } from 'vue'
   
-  const username = ref(localStorage.getItem('username') || 'Nobody')
-  const currentRating = ref(0)
-  const ratings = ref([])
+  // const username = ref(localStorage.getItem('username') || 'Nobody')
+  // const currentRating = ref(0)
+  // const ratings = ref([])
   
-  onMounted(() => {
-    const storedRatings = JSON.parse(localStorage.getItem('ratings')) || []
-    ratings.value = storedRatings
-  })
+  // onMounted(() => {
+  //   const storedRatings = JSON.parse(localStorage.getItem('ratings')) || []
+  //   ratings.value = storedRatings
+  // })
   
-  const submitRating = () => {
-    const userRating = {
-      username: username,
-      score: currentRating.value
-    }
+  // const submitRating = () => {
+  //   const userRating = {
+  //     username: username,
+  //     score: currentRating.value
+  //   }
   
-    ratings.value.push(userRating)
-    localStorage.setItem('ratings', JSON.stringify(ratings.value))
-    alert('Thank you for your rating!')
-    currentRating.value = 0
-  }
+  //   ratings.value.push(userRating)
+  //   localStorage.setItem('ratings', JSON.stringify(ratings.value))
+  //   alert('Thank you for your rating!')
+  //   currentRating.value = 0
+  // }
   </script>
   
   <style scoped>
-  .rating-container {
-    max-width: 400px;
+  .card {
+    max-width: 800px;
     margin: 0 auto;
     padding: 2rem;
-    border: 1px solid #ccc;
+    border: 1px solid #ffffff;
     border-radius: 10px;
-    background-color: #f8f9fa;
+    background-color: #ffffff;
   }
   
   .text-center {
