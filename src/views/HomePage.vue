@@ -12,20 +12,24 @@
         </div>
        </div>
 
-       <div class="input-group search-box">
+       <div class="input-group search-box row">
+
         <input
           v-model="searchQuery" 
           placeholder="What are you looking for?" 
-          class="search-input"
+          class="search-input col-md-10"
         >
-        <span class="input-group-text search-icon">
-          <i class="pi pi-search"></i>
-        </span>
+
+        <button type="submit" class="search-btn">
+          <img src="https://i.imgur.com/sijPEYJ.png"  class="img-fluid rounded-start h-100 w-100 col-md-2" style="object-fit: contain;" alt="Sun illustration">
+        </button>
+        
        </div>
+
     </div>
 
     <div class="sun-illustration col-md-6">
-      <img src="../assets/sun-illustration.png" alt="Sun illustration">
+      <img src="https://i.imgur.com/HLWn2v8.png"  class="img-fluid rounded-start h-100 w-100" style="object-fit: contain;" alt="Sun illustration">
     </div>
   </div>
 
@@ -120,17 +124,23 @@
     font-size: 16px;
     border: none;
     outline: none;
-  }
-  .search-icon {
-    background-color: #f1f1f1;
-    padding: 12px 15px;
-    font-size: 18px;
-    cursor: pointer;
-    border-radius: 0 10px 10px 0;
-    display: flex;
-    align-items: center;
+    padding-bottom: 8px;
   }
   
+  .search-btn {
+    background-color: #c3e6f2;
+    width: 40px;
+    height: 40px;
+    border-radius: 15px;
+    display: flex;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .search-btn:hover {
+    background-color: #a0e3f9;
+  }
   .text-center {
     text-align: center;
   }
