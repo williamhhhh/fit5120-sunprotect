@@ -1,54 +1,59 @@
 <template>
-  <div class="container">
-    <header class="d-flex justify-content-center py-3">
-      <ul class="nav nav-pills">
-        <li class="nav-item">
-          <router-link to="/home" class="nav-link" active-class="active" aria-current="page">Home</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="/reminder" class="nav-link" active-class="active">Reminder</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="/impact" class="nav-link" active-class="active">UV impact</router-link>
-        </li>
-      </ul>
-    </header>
+  <div class="header">
+    <div class="title-section">
+      <h1 class="title">Sun Aware</h1>
+    </div>
   </div>
+<!-- -------------------------------------------- -->
+  <header class="d-flex justify-content-center py-3">
+    <ul class="nav nav-pills">
+      <li class="nav-item">
+        <router-link to="/home" class="nav-link" active-class="active" aria-current="page">Home</router-link>
+      </li>
+      <li class="nav-item">
+        <router-link to="/reminder" class="nav-link" active-class="active">Reminder</router-link>
+      </li>
+      <li class="nav-item">
+        <router-link to="/impact" class="nav-link" active-class="active">UV impact</router-link>
+      </li>
+    </ul>
+  </header>
 </template>
 
 <style scoped>
-.b-example-divider {
-  height: 3rem;
-  background-color: rgba(0, 0, 0, 0.1);
-  border: solid rgba(0, 0, 0, 0.15);
-  border-width: 1px 0;
-  box-shadow:
-    inset 0 0.5em 1.5em rgba(0, 0, 0, 0.1),
-    inset 0 0.125em 0.5em rgba(0, 0, 0, 0.15);
+.header {
+  background-color: #c3e6f2;
+  padding: 30px 0;
+  border-bottom: 2px solid #ddd;
 }
 
-.form-control-dark {
-  color: #fff;
-  background-color: var(--bs-dark);
-  border-color: var(--bs-gray);
-}
-.form-control-dark:focus {
-  color: #fff;
-  background-color: var(--bs-dark);
-  border-color: #fff;
-  box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.25);
+.title-section {
+  text-align: center;
+  margin-bottom: 10px;
 }
 
-.bi {
-  vertical-align: -0.125em;
-  fill: currentColor;
+.title {
+  font-size: 25px;
+  font-weight: bold;
+  color: rgb(8, 8, 109);
+  margin: 0;
 }
 
-.text-small {
-  font-size: 85%;
+.nav-pills{
+  border-bottom: 1px solid #ddd;
 }
 
-.dropdown-toggle {
-  outline: 0;
+.nav-pills .nav-link{
+  color: #9b9696;
+  font-size: 16px;
+  padding: 10px 15px;
+  border-radius: 0px;
 }
+
+.nav-pills .nav-link.active {
+  background-color: white;
+  color: black;
+  border-bottom: 1px solid black;
+}
+
 </style>
