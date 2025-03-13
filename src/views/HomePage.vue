@@ -1,35 +1,35 @@
 <template>
-    <div class="rating-container">
-      <h1 class="text-center">Rate My Web Application</h1>
-      <form @submit.prevent="submitRating">
-        <div class="mb-3">
-          <label for="rating" class="form-label">Select Your Rating (1-5):</label>
-          <input
-            type="number"
-            id="rating"
-            v-model.number="currentRating"
-            class="form-control"
-            min="1"
-            max="5"
-            required
-          />
+  <div class="search-container">
+    <div class="row">
+    <div class="search-content col-md-6">
+      <h1 class="search-title">Search for a <br><span class="highlight">Suburb</span></h1>
+
+      <!-- Stats -->
+       <div class="stats-container">
+        <div class="stat-item">
+          <h2>50+</h2>
+          <p>Good reviews</p>
         </div>
-        <button type="submit" class="btn btn-primary w-100">Submit</button>
-      </form>
-  
-      <div class="mt-5 text-center">
-        <h3>Ratings History:</h3>
-        <ul class="list-group">
-          <li v-for="(rating, index) in ratings" :key="index" class="list-group-item">
-            <strong>
-              {{ rating.username }}
-            </strong>
-            : {{ rating.score }} / 5
-          </li>
-        </ul>
-        <p v-if="ratings.length === 0">No ratings yet.</p>
-      </div>
+       </div>
+
+       <div class="input-group search-box">
+        <input
+          v-model="searchQuery" 
+          placeholder="What are you looking for?" 
+          class="search-input"
+        >
+        <span class="input-group-text search-icon">
+          <i class="pi pi-search"></i>
+        </span>
+       </div>
     </div>
+
+    <div class="sun-illustration col-md-6">
+      <img src="../assets/sun-illustration.png" alt="Sun illustration">
+    </div>
+  </div>
+
+  </div>
   </template>
   
   <script setup>
@@ -58,13 +58,77 @@
   </script>
   
   <style scoped>
-  .rating-container {
-    max-width: 400px;
+
+  .search-container {
+    max-width: 900px;
     margin: 0 auto;
     padding: 2rem;
     border: 1px solid #ccc;
     border-radius: 10px;
-    background-color: #f8f9fa;
+    background-color: #c3e6f2;
+  }
+
+  .search-content {
+    max-width: 50%;
+  }
+
+  .search-title {
+    font-size: 2.8rem;
+    font-weight: 500;
+    margin-bottom: 20px;
+    line-height: 1.2;
+    color: #000;
+  }
+
+  .highlight {
+    color: #000;
+    font-weight: 800;
+  }
+
+  .stats-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+  }
+
+  .stat-item h2 {
+    font-size: 2rem;
+    margin: 0;
+    font-weight: bold;
+  }
+
+  .stat-item p {
+    font-size: 1rem;
+    margin: 0;
+    color: #6c757d;
+  }
+
+  .search-box {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    height: 40px;
+  }
+
+  .search-input {
+    display: flex;
+    padding: 12px 16px;
+    font-size: 16px;
+    border: none;
+    outline: none;
+  }
+  .search-icon {
+    background-color: #f1f1f1;
+    padding: 12px 15px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 0 10px 10px 0;
+    display: flex;
+    align-items: center;
   }
   
   .text-center {
