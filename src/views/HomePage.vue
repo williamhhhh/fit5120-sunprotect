@@ -1,67 +1,141 @@
 <template>
-  <div class="search-container">
+
+  <div class="desc-container">
     <div class="row">
-    <div class="search-content col-md-6">
-      <h1 class="search-title">Search for a <br><span class="highlight">Suburb</span></h1>
+      <div class=" col-md-5">
+        <img src="https://i" class="img-fluid rounded-start h-100 w-100" style="object-fit: contain;" alt="Sun illustration">
+      </div>
+      <div class="col-md-7">
+        <h1 class="welcome-title">Welcome to <br><span class="highlight">SunSafe</span></h1>
+        <p class="welcome-text">SunSafe is a web application that provides real-time UV index data for Australian suburbs. Search for a suburb to get started!</p>
+      </div>
+    </div>
+  </div>
 
-      <!-- Stats -->
-       <div class="stats-container">
-        <div class="stat-item">
-          <h2>50+</h2>
-          <p>Good reviews</p>
+
+
+
+  <div class="search-container">
+
+    <div class="row">
+      <div class="search-content col-md-6">
+        <h1 class="search-title">Search for a <br><span class="highlight">Suburb</span></h1>
+
+        <!-- Stats -->
+        <div class="stats-container">
+          <div class="stat-item">
+            <h2>50+</h2>
+            <p>Good reviews</p>
+          </div>
         </div>
-       </div>
 
-       <div class="input-group search-box row">
+        <div class="input-group search-box">
+          <div class="row">
+            <input
+              type="text"
+              v-model="query" 
+              @input="searchLocations"
+              placeholder="What are you looking for?" 
+              class="search-input col-md-10"
+            >
 
-        <input
-          v-model="searchQuery" 
-          placeholder="What are you looking for?" 
-          class="search-input col-md-10"
-        >
+            <button type="submit" class="search-btn" @click="searchUvIndex">
+              <img src="https://i.imgur.com/sijPEYJ.png"  class="img-fluid rounded-start h-100 w-100 col-md-2" style="object-fit: contain;" alt="Sun illustration">
+            </button>
+          </div>      
+      </div>
 
-        <button type="submit" class="search-btn">
-          <img src="https://i.imgur.com/sijPEYJ.png"  class="img-fluid rounded-start h-100 w-100 col-md-2" style="object-fit: contain;" alt="Sun illustration">
-        </button>
-        
-       </div>
+      <ul v-if="suggestions.length > 0" class="suggestions">
+        <li v-for="(location, index) in suggestions" :key="index" 
+        @click="selectLocation(location)">
+          {{ location.display_name }}
+        </li>
+      </ul>
+
+      <!-- <div v-if="selectedLocation" class="selected-location">
+        <h2>{{ selectedLocation.display_name }}</h2>
+        <p>{{ selectedLocation.lat }}, {{ selectedLocation.lon }}</p>
+      </div> -->
 
     </div>
 
     <div class="sun-illustration col-md-6">
       <img src="https://i.imgur.com/HLWn2v8.png"  class="img-fluid rounded-start h-100 w-100" style="object-fit: contain;" alt="Sun illustration">
     </div>
-  </div>
-
+      
+      
+    </div>
   </div>
   </template>
   
   <script setup>
   import { ref, onMounted } from 'vue'
+  import axios from 'axios'
   
-  const username = ref(localStorage.getItem('username') || 'Nobody')
-  const currentRating = ref(0)
-  const ratings = ref([])
-  
-  onMounted(() => {
-    const storedRatings = JSON.parse(localStorage.getItem('ratings')) || []
-    ratings.value = storedRatings
-  })
-  
-  const submitRating = () => {
-    const userRating = {
-      username: username,
-      score: currentRating.value
+  const query = ref('')
+  const suggestions = ref([])
+  const selectedLocation = ref(null)
+
+  const searchLocations = async () => {
+    if (query.value.length < 3) {
+      suggestions.value = []
+      return
     }
-  
-    ratings.value.push(userRating)
-    localStorage.setItem('ratings', JSON.stringify(ratings.value))
-    alert('Thank you for your rating!')
-    currentRating.value = 0
+
+    try {
+      const response = await axios.get("https://nominatim.openstreetmap.org/search", {
+        params: {
+          q: query.value,
+          format: 'json',
+          countrycodes: 'au',
+          limit: 5
+        },
+      })
+      console.log(response.data)
+      suggestions.value = response.data
+    } catch (error) {
+      console.error("Error fetching locations", error)
+    }
   }
+
+  const selectLocation = (location) => {
+      selectedLocation.value = location
+      query.value = location.display_name
+      suggestions.value = []
+    }
+
+    const searchUvIndex = async () => {
+      if (!selectedLocation.value) {
+        return
+      }
+
+      try {
+        const response = await axios.get("https://api.openweathermap.org/data/2.5/uvi", {
+          params: {
+            lat: selectedLocation.value.lat,
+            lon: selectedLocation.value.lon,
+            // appid: process.env.VUE_APP_OPENWEATHER_API_KEY
+          },
+        })
+        console.log(response.data)
+      } catch (error) {
+        console.error("Error fetching UV index", error)
+      }
+    }
+
+
   </script>
   
   <style scoped>
+
+  .desc-container {
+    max-width: 1000px;
+    max-width: 0 auto;
+    padding: 2rem;
+    border: 1px solid #ffffff;
+    border-radius: 10px;
+    background-color: #ffffff;
+  }
 
   .search-container {
     max-width: 900px;
@@ -141,12 +215,25 @@
   .search-btn:hover {
     background-color: #a0e3f9;
   }
-  .text-center {
-    text-align: center;
-  }
-  
-  .list-group {
-    text-align: left;
-  }
+
+  .suggestions {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: #fff;
+  width: 80%;
+}
+
+.suggestions li {
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.suggestions li:hover {
+  background-color: #a0e3f9;
+}
   </style>
   
