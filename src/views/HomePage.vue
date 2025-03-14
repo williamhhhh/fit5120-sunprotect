@@ -220,8 +220,7 @@
 
   .search-input {
     display: flex;
-    padding: 12px;
-    padding-bottom: 12px;
+    padding: 8px 12px 12px 12px;
     margin-bottom: 10px;
     font-size: 16px;
     border: none;
