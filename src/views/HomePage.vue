@@ -2,17 +2,16 @@
 
   <div class="desc-container">
     <div class="row">
-      <div class=" col-md-5">
-        <img src="https://i" class="img-fluid rounded-start h-100 w-100" style="object-fit: contain;" alt="Sun illustration">
-      </div>
-      <div class="col-md-7">
+        <img src="https://media-public.canva.com/PaCm0/MAFqXFPaCm0/1/s2.jpg" class="img-fluid rounded-start w-100" style="object-fit: cover; height: 500px;" alt="Sun illustration">
+      <div class="welcome-content">
         <h1 class="welcome-title">Welcome to <br><span class="highlight">SunSafe</span></h1>
-        <p class="welcome-text">SunSafe is a web application that provides real-time UV index data for Australian suburbs. Search for a suburb to get started!</p>
+        <p class="welcome-text col-md-6">SunSafe is a web application that provides real-time UV index data for Australian suburbs. Search for a suburb to get started!</p>
       </div>
     </div>
   </div>
 
-
+  <!-- "https://media-public.canva.com/PaCm0/MAFqXFPaCm0/1/s2.jpg" -->
+  <!-- https://media-public.canva.com/dXils/MAGIx_dXils/1/s3.jpg -->
 
 
   <div class="search-container">
@@ -129,12 +128,36 @@
   <style scoped>
 
   .desc-container {
-    max-width: 1000px;
-    max-width: 0 auto;
+    max-width: 1100px;
+    /* left: 200px; */
     padding: 2rem;
     border: 1px solid #ffffff;
     border-radius: 10px;
     background-color: #ffffff;
+    position: relative;
+    margin: auto;
+  }
+
+  .welcome-title {
+    font-size: 3.5rem;
+    font-weight: 500;
+    margin-bottom: 20px;
+    line-height: 1.2;
+    color: #000;
+    z-index: 1000;
+    position: absolute;
+    top: 60px;
+    left: 60px;
+  }
+
+  .welcome-text {
+    font-size: 1.3rem;
+    font-weight: 300;
+    color: #000;
+    z-index: 1000;
+    position: absolute;
+    top: 200px;
+    left: 60px;
   }
 
   .search-container {
