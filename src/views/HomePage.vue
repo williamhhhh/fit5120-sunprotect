@@ -4,7 +4,7 @@
     <div class="row">
         <img src="https://media-public.canva.com/PaCm0/MAFqXFPaCm0/1/s2.jpg" class="img-fluid rounded-start w-100" style="object-fit: cover; height: 500px;" alt="Sun illustration">
       <div class="welcome-content">
-        <h1 class="welcome-title">Welcome to <br><span class="highlight">SunSafe</span></h1>
+        <h1 class="welcome-title">Welcome to <br><span class="highlight">SunAware</span></h1>
         <p class="welcome-text col-md-6">SunSafe is a web application that provides real-time UV index data for Australian suburbs. Search for a suburb to get started!</p>
       </div>
     </div>
@@ -29,7 +29,6 @@
         </div>
 
         <div class="input-group search-box">
-          <div class="row">
             <input
               type="text"
               v-model="query" 
@@ -38,10 +37,10 @@
               class="search-input col-md-10"
             >
 
-            <button type="submit" class="search-btn" @click="searchUvIndex">
-              <img src="https://i.imgur.com/sijPEYJ.png"  class="img-fluid rounded-start h-100 w-100 col-md-2" style="object-fit: contain;" alt="Sun illustration">
+            <button type="submit" class="search-btn col-md-2" style="margin-left: 20px;" @click="searchUvIndex">
+              <img src="https://i.imgur.com/sijPEYJ.png"  class="img-fluid rounded-start h-100 w-100" style="object-fit: contain;" alt="Sun illustration">
             </button>
-          </div>      
+   
       </div>
 
       <ul v-if="suggestions.length > 0" class="suggestions">
@@ -97,19 +96,22 @@
     }
   }
 
+  // Select a location from the suggestions
   const selectLocation = (location) => {
       selectedLocation.value = location
       query.value = location.display_name
       suggestions.value = []
     }
 
+    // Fetch UV index data
+    // After clicking the search button, this function will be called
     const searchUvIndex = async () => {
       if (!selectedLocation.value) {
         return
       }
 
       try {
-        const response = await axios.get("https://api.openweathermap.org/data/2.5/uvi", {
+        const response = await axios.get("", {
           params: {
             lat: selectedLocation.value.lat,
             lon: selectedLocation.value.lon,
@@ -206,18 +208,21 @@
 
   .search-box {
     display: flex;
-    align-items: center;
+    /* align-items: center; */
+    margin-top: 40px;
     background: #fff;
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 350px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    width: 400px;
     height: 40px;
   }
 
   .search-input {
     display: flex;
-    padding: 12px 16px;
+    padding: 12px;
+    padding-bottom: 12px;
+    margin-bottom: 10px;
     font-size: 16px;
     border: none;
     outline: none;
@@ -226,9 +231,13 @@
   
   .search-btn {
     background-color: #c3e6f2;
-    width: 40px;
-    height: 40px;
-    border-radius: 15px;
+    /* margin: 0 auto; */
+    margin-left: 80px;
+    margin-top: 1px;
+    width: 38px;
+    height: 38px;
+    /* border-radius: 10px; */
+    border-radius: 10px 10px 10px 10px;
     display: flex;
     border: none;
     cursor: pointer;
