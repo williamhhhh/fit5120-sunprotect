@@ -254,7 +254,8 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   background: #fff;
-  width: 80%;
+  width: 30%;
+  position: absolute;
 }
 
 .suggestions li {
