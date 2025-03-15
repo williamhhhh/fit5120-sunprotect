@@ -5,7 +5,7 @@ import UVimpact from '@/views/UVimpactPage.vue'
 
 const routes = [
   {
-    path: '/home',
+    path: '/',
     name: 'Home',
     component: Home,
   },

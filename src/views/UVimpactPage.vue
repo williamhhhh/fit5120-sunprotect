@@ -35,28 +35,7 @@
   </template>
   
   <script setup>
-  // import { ref, onMounted } from 'vue'
-  
-  // const username = ref(localStorage.getItem('username') || 'Nobody')
-  // const currentRating = ref(0)
-  // const ratings = ref([])
-  
-  // onMounted(() => {
-  //   const storedRatings = JSON.parse(localStorage.getItem('ratings')) || []
-  //   ratings.value = storedRatings
-  // })
-  
-  // const submitRating = () => {
-  //   const userRating = {
-  //     username: username,
-  //     score: currentRating.value
-  //   }
-  
-  //   ratings.value.push(userRating)
-  //   localStorage.setItem('ratings', JSON.stringify(ratings.value))
-  //   alert('Thank you for your rating!')
-  //   currentRating.value = 0
-  // }
+
   </script>
   
   <style scoped>
