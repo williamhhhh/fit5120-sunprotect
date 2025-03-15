@@ -1,131 +1,154 @@
 <template>
 
-  <div class="desc-container">
-    <div class="row">
-        <img src="https://media-public.canva.com/PaCm0/MAFqXFPaCm0/1/s2.jpg" class="img-fluid rounded-start w-100" style="object-fit: cover; height: 500px;" alt="Sun illustration">
-      <div class="welcome-content">
-        <h1 class="welcome-title">Welcome to <br><span class="highlight">SunAware</span></h1>
-        <p class="welcome-text col-md-6">SunSafe is a web application that provides real-time UV index data for Australian suburbs. Search for a suburb to get started!</p>
-      </div>
+<div class="desc-container">
+  <div class="row">
+      <img src="https://media-public.canva.com/PaCm0/MAFqXFPaCm0/1/s2.jpg" class="img-fluid rounded-start w-100" style="object-fit: cover; height: 500px;" alt="Sun illustration">
+    <div class="welcome-content">
+      <h1 class="welcome-title">Welcome to <br><span class="highlight">SunAware</span></h1>
+      <p class="welcome-text col-md-6">SunSafe is a web application that provides real-time UV index data for Australian suburbs. Search for a suburb to get started!</p>
     </div>
   </div>
+</div>
 
-  <!-- "https://media-public.canva.com/PaCm0/MAFqXFPaCm0/1/s2.jpg" -->
-  <!-- https://media-public.canva.com/dXils/MAGIx_dXils/1/s3.jpg -->
+<!-- "https://media-public.canva.com/PaCm0/MAFqXFPaCm0/1/s2.jpg" -->
+<!-- https://media-public.canva.com/dXils/MAGIx_dXils/1/s3.jpg -->
 
 
-  <div class="search-container">
+<div class="search-container">
 
-    <div class="row">
-      <div class="search-content col-md-6">
-        <h1 class="search-title">Search for a <br><span class="highlight">Suburb</span></h1>
+  <div class="row">
+    <div class="search-content col-md-6">
+      <h1 class="search-title">Search for a <br><span class="highlight">Suburb</span></h1>
 
-        <!-- Stats -->
-        <div class="stats-container">
-          <div class="stat-item">
-            <h2>50+</h2>
-            <p>Good reviews</p>
-          </div>
+      <!-- Stats -->
+      <div class="stats-container">
+        <div class="stat-item">
+          <h2>50+</h2>
+          <p>Good reviews</p>
         </div>
-
-        <div class="input-group search-box">
-            <input
-              type="text"
-              v-model="query" 
-              @input="searchLocations"
-              placeholder="What are you looking for?" 
-              class="search-input col-md-10"
-            >
-
-            <button type="submit" class="search-btn col-md-2" style="margin-left: 20px;" @click="searchUvIndex">
-              <img src="https://i.imgur.com/sijPEYJ.png"  class="img-fluid rounded-start h-100 w-100" style="object-fit: contain;" alt="Sun illustration">
-            </button>
-   
       </div>
 
-      <ul v-if="suggestions.length > 0" class="suggestions">
-        <li v-for="(location, index) in suggestions" :key="index" 
-        @click="selectLocation(location)">
-          {{ location.display_name }}
-        </li>
-      </ul>
+      <div class="input-group search-box">
+          <input
+            type="text"
+            v-model="query" 
+            @input="searchLocations"
+            placeholder="What are you looking for?" 
+            class="search-input col-md-10"
+          >
 
-      <!-- <div v-if="selectedLocation" class="selected-location">
-        <h2>{{ selectedLocation.display_name }}</h2>
-        <p>{{ selectedLocation.lat }}, {{ selectedLocation.lon }}</p>
-      </div> -->
-
+          <button type="submit" class="search-btn col-md-2" style="margin-left: 20px;" @click="searchUvIndex">
+            <img src="https://i.imgur.com/sijPEYJ.png"  class="img-fluid rounded-start h-100 w-100" style="object-fit: contain;" alt="Sun illustration">
+          </button>
+  
     </div>
 
-    <div class="sun-illustration col-md-6">
-      <img src="https://i.imgur.com/HLWn2v8.png"  class="img-fluid rounded-start h-100 w-100" style="object-fit: contain;" alt="Sun illustration">
+    <ul v-if="suggestions.length > 0" class="suggestions">
+      <li v-for="(location, index) in suggestions" :key="index" 
+      @click="selectLocation(location)">
+        {{ location.display_name }}
+      </li>
+    </ul>
+
+    <!-- <div v-if="selectedLocation" class="selected-location">
+      <h2>{{ selectedLocation.display_name }}</h2>
+      <p>{{ selectedLocation.lat }}, {{ selectedLocation.lon }}</p>
+    </div> -->
+
+  </div>
+
+  <div class="sun-illustration col-md-6">
+    <img src="https://i.imgur.com/HLWn2v8.png"  class="img-fluid rounded-start h-100 w-100" style="object-fit: contain;" alt="Sun illustration">
+  </div>
+    
+    
+  </div>
+</div>
+
+<!-- UV Index -->
+<div v-if="uvData" class="uv-index-card">
+  <div class="uv-card-content">
+    <div class="uv-info">
+      <h1 class="uv-index">{{ uvData.now.uvi }}</h1>
+      <p class="uv-label">Current UV Index</p>
     </div>
-      
-      
+    <div class="time">
+      <p>Current Time: {{ uvData.now.time }}</p>  
     </div>
   </div>
-  </template>
-  
-  <script setup>
-  import { ref, onMounted } from 'vue'
-  import axios from 'axios'
-  
-  const query = ref('')
-  const suggestions = ref([])
-  const selectedLocation = ref(null)
+</div>
 
-  const searchLocations = async () => {
-    if (query.value.length < 3) {
-      suggestions.value = []
-      return
-    }
 
-    try {
-      const response = await axios.get("https://nominatim.openstreetmap.org/search", {
-        params: {
-          q: query.value,
-          format: 'json',
-          countrycodes: 'au',
-          limit: 5
-        },
-      })
-      console.log(response.data)
-      suggestions.value = response.data
-    } catch (error) {
-      console.error("Error fetching locations", error)
-    }
+</template>
+  
+<script setup>
+import { ref} from 'vue'
+import axios from 'axios'
+
+const query = ref('')
+const suggestions = ref([])
+const selectedLocation = ref(null)
+const uvData = ref(null);
+
+const searchLocations = async () => {
+  if (query.value.length < 3) {
+    suggestions.value = []
+    return
   }
 
-  // Select a location from the suggestions
-  const selectLocation = (location) => {
-      selectedLocation.value = location
-      query.value = location.display_name
-      suggestions.value = []
-    }
+  try {
+    const response = await axios.get("https://nominatim.openstreetmap.org/search", {
+      params: {
+        q: query.value,
+        format: 'json',
+        countrycodes: 'au',
+        limit: 5
+      },
+    })
+    console.log(response.data)
+    suggestions.value = response.data
+  } catch (error) {
+    console.error("Error fetching locations", error)
+  }
+}
 
-    // Fetch UV index data
-    // After clicking the search button, this function will be called
-    const searchUvIndex = async () => {
-      if (!selectedLocation.value) {
-        return
+// Select a location from the suggestions
+const selectLocation = (location) => {
+    selectedLocation.value = location
+    query.value = location.display_name
+    suggestions.value = []
+    fetchUvIndex()
+  }
+
+  // Fetch UV index data
+  // After clicking the search button, this function will be called
+const fetchUvIndex = async () => {
+  if (!selectedLocation.value) {
+    return
+  }
+
+  try {
+    const response = await axios.get("https://t9icxjys0j.execute-api.ap-southeast-2.amazonaws.com/dev/api/v1/uvi", 
+      {
+        params: {
+          latitude: selectedLocation.value.lat,
+          longitude: selectedLocation.value.lon,
+        // appid: process.env.VUE_APP_OPENWEATHER_API_KEY
+        },
       }
+    )
+    uvData.value = response.data;
+    console.log("UV Index Data:", uvData.value);
+  } catch (error) {
+    console.error("Error fetching UV index", error)
+  }
+}
 
-      try {
-        const response = await axios.get("", {
-          params: {
-            lat: selectedLocation.value.lat,
-            lon: selectedLocation.value.lon,
-            // appid: process.env.VUE_APP_OPENWEATHER_API_KEY
-          },
-        })
-        console.log(response.data)
-      } catch (error) {
-        console.error("Error fetching UV index", error)
-      }
-    }
+// onMounted(() => {
+//   fetchUvIndex()
+// });
 
-
-  </script>
+</script>
   
   <style scoped>
 
@@ -266,6 +289,43 @@
 
 .suggestions li:hover {
   background-color: #a0e3f9;
+}
+
+.uv-index-card {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  border-radius: 10px;
+  background-color: #c3e6f2;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.uv-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.uv-info {
+  margin-bottom: 1rem;
+}
+
+.uv-index {
+  font-size: 3rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.uv-label {
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.time {
+  font-size: 1rem;
+  color: #333;
 }
   </style>
   

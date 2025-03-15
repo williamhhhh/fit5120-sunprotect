@@ -32,13 +32,13 @@
       </div>
     </div>
 
-  </template>
+</template>
   
-  <script setup>
+<script setup>
 
-  </script>
+</script>
   
-  <style scoped>
+<style scoped>
   .card {
     max-width: 800px;
     margin: 0 auto;
@@ -55,5 +55,5 @@
   .list-group {
     text-align: left;
   }
-  </style>
+</style>
   
