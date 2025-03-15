@@ -73,7 +73,7 @@ export default {
 
       const delay = targetTime - now;
       setTimeout(() => {
-        alert(`Reminder: It's ${time}!`);
+        alert(`It's ${time}! You need sun protection now!`);
       }, delay);
     },
 
