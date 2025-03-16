@@ -6,8 +6,9 @@
           <div :class="card-body">
             <h5 class="card-title">Melanoma & UV Impact : The Hidden Danger in Sun Exposure</h5>
             <h6 class="card-subtitle mb-2 text-muted" style="font-weight: normal;">Stay Informed, Stay Protected</h6>
-            <p class="card-text" style="font-weight: 300;">Protecting your skin from UV rays can prevent 95% of melanoma cases. Small actions today can prevent big risks tomorrow—every precaution matters.</p>
-            <p class="card-text" style="font-weight: 300;">Melanoma is the deadliest form of skin cancer, with over 18,000 new cases expected in Australia in 2023, making up 11% of all cancer diagnoses. Despite a 94% survival rate over five years, early detection and prevention are crucial. UV exposure is the primary cause, increasing the risk for everyone, regardless of skin type. With 1 in 17 Australians likely to develop melanoma by age 85 and over 1,300 deaths projected this year, protecting your skin from the sun isn’t optional—it’s essential.</p>
+            <p class="card-text" style="font-weight: 300;">Over the past 40 years the incidence of skin cancers, including melanoma and other rare types,  has increased likely due to the increasing sophistication of diagnostics techniques as well as heightened awareness of the signs of melanoma, coupled with a population which failed to take the right protections during their life leading to onset as they age.</p>
+            <p class="card-text" style="font-weight: 300;">There are promising signs though, with younger Australians' rate of skin cancer decreasing over that time period. However any preventable skin cancers are too many and everyone need to continue to stay vigilant in the sun, taking the appropriate measures.</p>
+            <p class="card-text" style="font-weight: 300;">To see the recommendations for how you should protect your skin, see the Recommendations page.</p>
           </div>
         </div>
           <div class="col-md-7">
@@ -20,16 +21,16 @@
 
     <div class="card mb-3">
       <div class="row g-0">
-        <div class="col-md-6">
+        <div class="col-md-4">
           <div :class="card-body">
-            <h5 class="card-title">Sun Safety for Every Shade</h5>
+            <h5 class="card-title">UV's relationship with skin caner</h5>
             <h6 class="card-subtitle mb-2 text-muted" style="font-weight: normal;">Your skin is unique- so is your sun protection!</h6>
-            <p class="card-text" style="font-weight: 300;">Sun safety isn’t one-size-fits-all. New research divides skin types into three groups, offering tailored advice on balancing UV protection and vitamin D needs</p>
-            <p class="card-text" style="font-weight: 300;"></p>
+            <p class="card-text" style="font-weight: 300;">Australia's average UV Index, as measured around noon throughout the year, trends up as you go further north. The rates of skin cancers also tends to increase, with the highest rates in the Northern Territory and Queensland. So people living in and visiting the northern states and territories need to be more conscious of their exposure to UV, but we can see that this isn't a concrete trend; Tasmania has a higher than expected level despite its lower levels of UV.</p>
+            <p class="card-text" style="font-weight: 300;">So while it may vary by location and season, the average across the nation is at a level where you need to apply sunscreen and use other forms of protection, so it is key to ensure that wherever you are you take proper precautions.</p>
           </div>
         </div>
-          <div class="col-md-6">
-            <img src="https://i.imgur.com/CrKN24i.png" class="img-fluid rounded-start h-100 w-100" style="object-fit: contain;" alt="...">
+          <div class="col-md-8">
+            <img src="https://i.imgur.com/TGC5lSh.png" class="img-fluid rounded-start h-100 w-100" style="object-fit: contain;" alt="...">
           </div>
       </div>
     </div>
@@ -64,7 +65,7 @@ onMounted( () => {
   
 <style scoped>
   .card {
-    max-width: 800px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 2rem;
     border: 1px solid #ffffff;
