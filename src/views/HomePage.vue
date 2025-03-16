@@ -5,7 +5,7 @@
       <img src="https://media-public.canva.com/PaCm0/MAFqXFPaCm0/1/s2.jpg" class="img-fluid rounded-start w-100" style="object-fit: cover; height: 500px;" alt="Sun illustration">
     <div class="welcome-content">
       <h1 class="welcome-title">Welcome to <br><span class="highlight">SunAware</span></h1>
-      <p class="welcome-text col-md-6">SunSafe is a web application that provides real-time UV index data for Australian suburbs. Search for a suburb to get started!</p>
+      <p class="welcome-text col-md-6">SunAware is a web application that provides real-time UV index data for Australian suburbs. Search for a suburb to get started!</p>
     </div>
   </div>
 </div>
@@ -33,7 +33,7 @@
             type="text"
             v-model="query" 
             @input="searchLocations"
-            placeholder="What are you looking for?" 
+            placeholder="Type a suburb..." 
             class="search-input col-md-10"
           >
 

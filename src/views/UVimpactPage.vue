@@ -11,9 +11,13 @@
             <p class="card-text" style="font-weight: 300;">To see the recommendations for how you should protect your skin, see the Recommendations page.</p>
           </div>
         </div>
-          <div class="col-md-7">
-            <img v-if="linePlotData" :src="linePlotData" class="img-fluid rounded-start h-100 w-100" style="object-fit: contain;" alt="...">
-        </div>
+        
+          <div class="col-md-7 d-flex align-items-center justify-content-center">
+            <div v-if="isLoading" claSs="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <img v-else :src="linePlotData" class="img-fluid rounded-start h-100 w-100" style="object-fit: contain;" alt="...">
+          </div>
       </div>
     </div>
 
@@ -42,6 +46,7 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 
+const isLoading = ref(true);
 const linePlotData = ref(null)
 
 const fetchImage = async () => {
@@ -55,6 +60,8 @@ const fetchImage = async () => {
     
   } catch (error) {
     console.error("Error fetching image", error)
+  } finally {
+    isLoading.value = false;
   }
 }
 
