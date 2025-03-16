@@ -13,7 +13,7 @@
         </div>
         
           <div class="col-md-7 d-flex align-items-center justify-content-center">
-            <div v-if="isLoading" claSs="spinner-border text-primary" role="status">
+            <div v-if="isLoading" class="spinner-border" role="status">
               <span class="visually-hidden">Loading...</span>
             </div>
             <img v-else :src="linePlotData" class="img-fluid rounded-start h-100 w-100" style="object-fit: contain;" alt="...">
@@ -71,6 +71,11 @@ onMounted( () => {
 </script>
   
 <style scoped>
+
+  .spinner-border {
+    color: #c3e6f2;
+  }
+
   .card {
     max-width: 1200px;
     margin: 0 auto;

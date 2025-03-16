@@ -1,13 +1,11 @@
 <template>
 
 <div class="desc-container">
-  <div class="row">
-      <img src="https://media-public.canva.com/PaCm0/MAFqXFPaCm0/1/s2.jpg" class="img-fluid rounded-start w-100" style="object-fit: cover; height: 500px;" alt="Sun illustration">
+    <img src="https://media-public.canva.com/PaCm0/MAFqXFPaCm0/1/s2.jpg" class="img-fluid w-100" style="object-fit: cover; height: 500px; border-radius: 15px;" alt="Sun illustration">
     <div class="welcome-content">
       <h1 class="welcome-title">Welcome to <br><span class="highlight">SunAware</span></h1>
       <p class="welcome-text col-md-6">SunAware is a web application that provides real-time UV index data for Australian suburbs. Search for a suburb to get started!</p>
     </div>
-  </div>
 </div>
 
 <!-- "https://media-public.canva.com/PaCm0/MAFqXFPaCm0/1/s2.jpg" -->
@@ -37,8 +35,8 @@
             class="search-input col-md-10"
           >
 
-          <button type="submit" class="search-btn col-md-2" style="margin-left: 20px;" @click="searchUvIndex">
-            <img src="https://i.imgur.com/sijPEYJ.png"  class="img-fluid rounded-start h-100 w-100" style="object-fit: contain;" alt="Sun illustration">
+          <button type="submit" class="search-btn col-md-2" style="margin-left: 20px; border-radius: 10px;" @click="searchUvIndex">
+            <img src="https://i.imgur.com/sijPEYJ.png"  class="img-fluid h-100 w-100" style="object-fit: contain; margin-left: 1px;" alt="Sun illustration">
           </button>
   
     </div>
@@ -180,7 +178,7 @@ onMounted(() => {
 
   .welcome-text {
     font-size: 1.3rem;
-    font-weight: 300;
+    font-weight: 400;
     color: #000;
     z-index: 1000;
     position: absolute;
@@ -262,7 +260,7 @@ onMounted(() => {
     width: 38px;
     height: 38px;
     /* border-radius: 10px; */
-    border-radius: 10px 10px 10px 10px;
+    border-radius: 10px;
     display: flex;
     border: none;
     cursor: pointer;
