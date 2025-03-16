@@ -82,7 +82,7 @@
 </template>
   
 <script setup>
-import { ref} from 'vue'
+import { ref, onMounted} from 'vue'
 import axios from 'axios'
 
 const query = ref('')
@@ -123,30 +123,33 @@ const selectLocation = (location) => {
   // Fetch UV index data
   // After clicking the search button, this function will be called
 const fetchUvIndex = async () => {
-  if (!selectedLocation.value) {
-    return
-  }
+
+  const defaultLat = -37.6943;
+  const defaultLon = 145.3469;
+
+  const latitude = selectedLocation.value?.lat || defaultLat;
+  const longitude = selectedLocation.value?.lon || defaultLon;
 
   try {
-    const response = await axios.get("https://t9icxjys0j.execute-api.ap-southeast-2.amazonaws.com/dev/api/v1/uvi", 
+    const response = await axios.get(
+      "https://t9icxjys0j.execute-api.ap-southeast-2.amazonaws.com/dev/api/v1/uvi",
       {
         params: {
-          latitude: selectedLocation.value.lat,
-          longitude: selectedLocation.value.lon,
-        // appid: process.env.VUE_APP_OPENWEATHER_API_KEY
+          latitude: latitude,
+          longitude: longitude,
         },
       }
-    )
+    );
     uvData.value = response.data;
     console.log("UV Index Data:", uvData.value);
   } catch (error) {
-    console.error("Error fetching UV index", error)
+    console.error("Error fetching UV index", error);
   }
-}
+};
 
-// onMounted(() => {
-//   fetchUvIndex()
-// });
+onMounted(() => {
+  fetchUvIndex();
+});
 
 </script>
   
@@ -292,7 +295,7 @@ const fetchUvIndex = async () => {
 }
 
 .uv-index-card {
-  max-width: 600px;
+  max-width: 1000px;
   margin: 2rem auto;
   padding: 1.5rem;
   border-radius: 10px;
