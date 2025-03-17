@@ -71,7 +71,7 @@
       <p class="uv-label">Current UV Index</p>
     </div>
     <div class="time">
-      <p>Current Time: {{ uvData.now.time }}</p>  
+      <p>Current Time: {{ currentTime }}</p>  
     </div>
   </div>
 </div>
@@ -87,6 +87,7 @@ const query = ref('')
 const suggestions = ref([])
 const selectedLocation = ref(null)
 const uvData = ref(null);
+const currentTime = ref('')
 
 const searchLocations = async () => {
   if (query.value.length < 3) {
@@ -139,6 +140,10 @@ const fetchUvIndex = async () => {
       }
     );
     uvData.value = response.data;
+
+    const now = new Date();
+    currentTime.value = now.toLocaleTimeString();
+
     console.log("UV Index Data:", uvData.value);
   } catch (error) {
     console.error("Error fetching UV index", error);
