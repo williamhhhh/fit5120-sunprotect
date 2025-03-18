@@ -115,11 +115,13 @@ const searchLocations = async () => {
 
 // Select a location from the suggestions
 const selectLocation = (location) => {
+
     selectedLocation.value = location
     query.value = location.display_name
     suggestions.value = []
-    currentLocation.value = query.value
     fetchUvIndex()
+    currentLocation.value = query.value
+    // fetchUvIndex()
   }
 
   // Fetch UV index data
@@ -131,6 +133,7 @@ const fetchUvIndex = async () => {
 
   const latitude = selectedLocation.value?.lat || defaultLat;
   const longitude = selectedLocation.value?.lon || defaultLon;
+  currentLocation.value = "Clayton, Melbourne, City of Monash, VIC, 3168, Australia / AU"
 
   try {
     const response = await axios.get(
