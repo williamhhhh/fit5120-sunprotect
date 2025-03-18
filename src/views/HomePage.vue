@@ -72,6 +72,7 @@
     </div>
     <div class="time">
       <p>Current Time: {{ currentTime }}</p>  
+      <p>You are in: {{ currentLocation }}</p>  
     </div>
   </div>
 </div>
@@ -88,6 +89,7 @@ const suggestions = ref([])
 const selectedLocation = ref(null)
 const uvData = ref(null);
 const currentTime = ref('')
+const currentLocation = ref ('')
 
 const searchLocations = async () => {
   if (query.value.length < 3) {
@@ -116,6 +118,7 @@ const selectLocation = (location) => {
     selectedLocation.value = location
     query.value = location.display_name
     suggestions.value = []
+    currentLocation.value = query.value
     fetchUvIndex()
   }
 
