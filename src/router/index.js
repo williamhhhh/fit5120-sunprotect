@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '@/views/HomePage.vue'
 import Reminder from '@/views/ReminderPage.vue'
 import UVimpact from '@/views/UVimpactPage.vue'
+import UVindex from '@/views/UVindexPage.vue'
 
 const routes = [
   {
@@ -18,6 +19,11 @@ const routes = [
     path: '/impact',
     name: 'UVimpact',
     component: UVimpact,
+  },
+  {
+    path: '/index',
+    name:'UVindex',
+    component: UVindex,
   }
 ]
 

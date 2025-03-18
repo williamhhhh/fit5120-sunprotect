@@ -11,6 +11,9 @@
         <router-link to="/" class="nav-link" active-class="active" aria-current="page">Home</router-link>
       </li>
       <li class="nav-item">
+        <router-link to="/index" class="nav-link" active-class="active">UV index</router-link>
+      </li>
+      <li class="nav-item">
         <router-link to="/reminder" class="nav-link" active-class="active">Reminder</router-link>
       </li>
       <li class="nav-item">
