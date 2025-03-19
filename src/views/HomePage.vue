@@ -1,10 +1,32 @@
 <template>
 
 <div class="desc-container">
-    <img src="https://media-public.canva.com/PaCm0/MAFqXFPaCm0/1/s2.jpg" class="img-fluid w-100" style="object-fit: cover; height: 500px; border-radius: 15px;" alt="Sun illustration">
+    <div  class="img-bg w-100" :style="backgroundStyle" alt="Sun illustration">
     <div class="welcome-content">
       <h1 class="welcome-title">Welcome to <br><span class="highlight">SunAware</span></h1>
       <p class="welcome-text col-md-6">SunAware is a web application that provides real-time UV index data for Australian suburbs. Search for a suburb to get started!</p>
+    </div>
+
+    <div class="input-group search-box">
+          <input
+            type="text"
+            v-model="query" 
+            @input="searchLocations"
+            placeholder="Type a suburb..." 
+            class="search-input col-md-10"
+          >
+
+          <button type="submit" class="search-btn col-md-2" style="margin-left: 20px; border-radius: 10px;" @click="searchUvIndex">
+            <img src="https://i.imgur.com/sijPEYJ.png"  class="img-fluid h-100 w-100" style="object-fit: contain; margin-left: 1px;" alt="Sun illustration">
+          </button>
+  
+      </div>
+      <ul v-if="suggestions.length > 0" class="suggestions">
+      <li v-for="(location, index) in suggestions" :key="index" 
+      @click="selectLocation(location)">
+        {{ location.display_name }}
+      </li>
+    </ul>
     </div>
 </div>
 
@@ -12,13 +34,12 @@
 <!-- https://media-public.canva.com/dXils/MAGIx_dXils/1/s3.jpg -->
 
 
-<div class="search-container">
+<!-- <div class="search-container">
 
   <div class="row">
     <div class="search-content col-md-6">
       <h1 class="search-title">Search for a <br><span class="highlight">Suburb</span></h1>
 
-      <!-- Stats -->
       <div class="stats-container">
         <div class="stat-item">
           <h2>50+</h2>
@@ -39,7 +60,7 @@
             <img src="https://i.imgur.com/sijPEYJ.png"  class="img-fluid h-100 w-100" style="object-fit: contain; margin-left: 1px;" alt="Sun illustration">
           </button>
   
-    </div>
+      </div>
 
     <ul v-if="suggestions.length > 0" class="suggestions">
       <li v-for="(location, index) in suggestions" :key="index" 
@@ -48,10 +69,10 @@
       </li>
     </ul>
 
-    <!-- <div v-if="selectedLocation" class="selected-location">
+    <div v-if="selectedLocation" class="selected-location">
       <h2>{{ selectedLocation.display_name }}</h2>
       <p>{{ selectedLocation.lat }}, {{ selectedLocation.lon }}</p>
-    </div> -->
+    </div>
 
   </div>
 
@@ -61,9 +82,9 @@
     
     
   </div>
-</div>
+</div> -->
 
-<!-- UV Index -->
+<!-- UV Index
 <div v-if="uvData" class="uv-index-card">
   <div class="uv-card-content">
     <div class="uv-info">
@@ -75,13 +96,13 @@
       <p>You are in: {{ currentLocation }}</p>  
     </div>
   </div>
-</div>
+</div> -->
 
 
 </template>
   
 <script setup>
-import { ref, onMounted} from 'vue'
+import { ref, onMounted, onUnmounted, computed} from 'vue'
 import axios from 'axios'
 
 const query = ref('')
@@ -90,6 +111,26 @@ const selectedLocation = ref(null)
 const uvData = ref(null);
 const currentTime = ref('')
 const currentLocation = ref ('')
+const index = ref(0);
+
+const backgrounds = [
+  "https://media-public.canva.com/PaCm0/MAFqXFPaCm0/1/s2.jpg",
+  "https://media-public.canva.com/dXils/MAGIx_dXils/1/s3.jpg",
+  ""
+];
+
+let intervalId = null;
+
+const changeBackground = () => {
+  intervalId = setInterval(() => {
+    index.value = (index.value + 1) % backgrounds.length;
+  }, 5000);
+};
+
+const backgroundStyle = computed(() => ({
+  backgroundImage: `url(${backgrounds[index.value]})`
+}));
+
 
 const searchLocations = async () => {
   if (query.value.length < 3) {
@@ -158,21 +199,25 @@ const fetchUvIndex = async () => {
 
 onMounted(() => {
   fetchUvIndex();
+  changeBackground();
 });
+
+onUnmounted(() => {
+  clearInterval(intervalId);
+})
 
 </script>
   
   <style scoped>
 
   .desc-container {
-    max-width: 1100px;
+    max-width: 100%;
     /* left: 200px; */
-    padding: 2rem;
     border: 1px solid #ffffff;
-    border-radius: 10px;
     background-color: #ffffff;
     position: relative;
     margin: auto;
+
   }
 
   .welcome-title {
@@ -198,6 +243,7 @@ onMounted(() => {
   }
 
   .search-container {
+    position: absolute;
     max-width: 900px;
     margin: 0 auto;
     padding: 2rem;
@@ -249,8 +295,17 @@ onMounted(() => {
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    width: 400px;
+    width: 80%;
     height: 40px;
+    z-index: 1000;
+    position: absolute;
+    bottom: 150px;
+    left: 10%;
+    right: 10%;
+  }
+
+  .img-bg {
+    object-fit: cover; width: 100%; height: 600px; transition: background-image 1s ease-in-out;
   }
 
   .search-input {
@@ -291,6 +346,8 @@ onMounted(() => {
   background: #fff;
   width: 30%;
   position: absolute;
+  top: 350px;
+  left: 100px;
 }
 
 .suggestions li {
