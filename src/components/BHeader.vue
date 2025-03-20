@@ -19,6 +19,9 @@
       <li class="nav-item">
         <router-link to="/clothing" class="nav-link" active-class="active">Clothing Recommendation</router-link>
       </li>
+      <li class="nav-item">
+        <router-link to="/personalisation" class="nav-link" active-class="active">Personalisation</router-link>
+      </li>
     </ul>
   </header>
 </template>

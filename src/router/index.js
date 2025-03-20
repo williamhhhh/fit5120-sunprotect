@@ -24,6 +24,11 @@ const routes = [
     path: '/clothing',
     name:'Clothing',
     component: ClothingRecommendation,
+  },
+  {
+    path: '/personalisation',
+    name:'Personalisation',
+    component: Personalisation,
   }
 ]
 
