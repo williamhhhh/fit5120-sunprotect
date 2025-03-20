@@ -129,6 +129,10 @@
   </script>
   
   <style scoped>
+  table {
+    background-color: #e6f7ff;
+  }
+
   .clothing-recommendation {
     font-family: "Arial", sans-serif;
   }
@@ -162,4 +166,5 @@
   .text-blue-600:hover {
     text-decoration: underline;
   }
+  
   </style>
