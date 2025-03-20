@@ -96,9 +96,9 @@ export default {
         0
       );
 
-      // if (targetTime <= now) {
-      //   targetTime.setDate(targetTime.getDate() + 1);
-      // }
+      if (targetTime <= now) {
+        targetTime.setDate(targetTime.getDate() + 1);
+      }
 
       const delay = targetTime - now;
       setTimeout(() => {
