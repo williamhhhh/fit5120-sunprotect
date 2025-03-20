@@ -1,20 +1,30 @@
 <template>
-<div v-if="uvData" class="uv-index-card">
-  <div class="uv-card-content">
-    <div class="uv-info">
-      <h1 class="uv-index">{{ uvData.now.uvi }}</h1>
-      <p class="uv-label">Current UV Index</p>
-    </div>
-    <div class="time">
-      <p>Current Time: {{ currentTime }}</p>  
-      <p>You are in: {{ currentLocation }}</p>  
-    </div>
-  </div>
-</div>
+  <Bar
+    id="my-chart-id"
+    :options="chartOptions"
+    :data="chartData"
+  />
 </template>
 
 <script>
-</script>
+import { Bar } from 'vue-chartjs'
+import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
 
-<style>
-</style>
+ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
+
+export default {
+  name: 'BarChart',
+  components: { Bar },
+  data() {
+    return {
+      chartData: {
+        labels: [ 'January', 'February', 'March' ],
+        datasets: [ { data: [40, 20, 12] } ]
+      },
+      chartOptions: {
+        responsive: true
+      }
+    }
+  }
+}
+</script>

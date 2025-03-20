@@ -19,6 +19,9 @@
       <li class="nav-item">
         <router-link to="/impact" class="nav-link" active-class="active">UV impact</router-link>
       </li>
+      <li class="nav-item">
+        <router-link to="/clothing" class="nav-link" active-class="active">Clothing Recommendation</router-link>
+      </li>
     </ul>
   </header>
 </template>
