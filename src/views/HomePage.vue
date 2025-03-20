@@ -1,226 +1,272 @@
 <template>
+  <div class="desc-container">
+    <div class="img-bg w-100" :style="backgroundStyle" alt="Sun illustration">
+      <div class="welcome-content">
+        <h1 class="welcome-title">
+          Welcome to <br /><span class="highlight">SunAware</span>
+        </h1>
+        <p class="welcome-text col-md-6">
+          SunAware is a web application that provides real-time UV index data
+          for Australian suburbs. Search for a suburb to get started!
+        </p>
+      </div>
 
-<div class="desc-container">
-    <div  class="img-bg w-100" :style="backgroundStyle" alt="Sun illustration">
-    <div class="welcome-content">
-      <h1 class="welcome-title">Welcome to <br><span class="highlight">SunAware</span></h1>
-      <p class="welcome-text col-md-6">SunAware is a web application that provides real-time UV index data for Australian suburbs. Search for a suburb to get started!</p>
-    </div>
-
-    <div class="input-group search-box">
-          <input
-            type="text"
-            v-model="query" 
-            @input="searchLocations"
-            placeholder="Type a suburb..." 
-            class="search-input col-md-10"
-          >
-
-          <button type="submit" class="search-btn col-md-2" style="margin-left: 20px; border-radius: 10px;" @click="searchUvIndex">
-            <img src="https://i.imgur.com/sijPEYJ.png"  class="img-fluid h-100 w-100" style="object-fit: contain; margin-left: 1px;" alt="Sun illustration">
-          </button>
-  
+      <div class="search-box">
+        <input
+          type="text"
+          v-model="query"
+          @input="searchLocations"
+          placeholder="Type a suburb..."
+          class="search-input"
+        />
+        <button
+          type="submit"
+          class="search-btn"
+          @click="searchUvIndex"
+        >
+          <img
+            src="https://i.imgur.com/sijPEYJ.png"
+            alt="Search"
+          />
+        </button>
       </div>
       <ul v-if="suggestions.length > 0" class="suggestions">
-      <li v-for="(location, index) in suggestions" :key="index" 
-      @click="selectLocation(location)">
-        {{ location.display_name }}
-      </li>
-    </ul>
+        <li
+          v-for="(location, index) in suggestions"
+          :key="index"
+          @click="selectLocation(location)"
+        >
+          {{ location.display_name }}
+        </li>
+      </ul>
     </div>
-</div>
 
-<!-- "https://media-public.canva.com/PaCm0/MAFqXFPaCm0/1/s2.jpg" -->
-<!-- https://media-public.canva.com/dXils/MAGIx_dXils/1/s3.jpg -->
+    <div v-if="uvData" class="uv-container">
+      <div class="uv-index-top">
+        <div class="uv-index-display" :style="{ borderColor: getUvColor(uvData.now.uvi) }">
+          <h2>Current UV Index</h2>
+          <div class="uv-index-value">
+            <span :style="{ color: getUvColor(uvData.now.uvi) }">{{ uvData.now.uvi }}</span>
+          </div>
+          <p class="uv-index-label" :style="{ color: getUvColor(uvData.now.uvi) }">
+            {{ getUvLevel(uvData.now.uvi) }}
+          </p>
+        </div>
 
-
-<!-- <div class="search-container">
-
-  <div class="row">
-    <div class="search-content col-md-6">
-      <h1 class="search-title">Search for a <br><span class="highlight">Suburb</span></h1>
-
-      <div class="stats-container">
-        <div class="stat-item">
-          <h2>50+</h2>
-          <p>Good reviews</p>
+        <div class="uv-risk-scale">
+          <h2>UV Risk Scale</h2>
+          <div class="uv-risk-level" v-for="(level, index) in uvLevels" :key="index">
+            <span class="uv-color-box" :style="{ backgroundColor: level.color }"></span>
+            <span class="uv-level-text">{{ level.text }}</span>
+          </div>
         </div>
       </div>
 
-      <div class="input-group search-box">
-          <input
-            type="text"
-            v-model="query" 
-            @input="searchLocations"
-            placeholder="Type a suburb..." 
-            class="search-input col-md-10"
-          >
-
-          <button type="submit" class="search-btn col-md-2" style="margin-left: 20px; border-radius: 10px;" @click="searchUvIndex">
-            <img src="https://i.imgur.com/sijPEYJ.png"  class="img-fluid h-100 w-100" style="object-fit: contain; margin-left: 1px;" alt="Sun illustration">
-          </button>
-  
+      <div class="uv-chart">
+        <h2>UV Index Chart</h2>
+        <canvas ref="uvChart"></canvas>
       </div>
-
-    <ul v-if="suggestions.length > 0" class="suggestions">
-      <li v-for="(location, index) in suggestions" :key="index" 
-      @click="selectLocation(location)">
-        {{ location.display_name }}
-      </li>
-    </ul>
-
-    <div v-if="selectedLocation" class="selected-location">
-      <h2>{{ selectedLocation.display_name }}</h2>
-      <p>{{ selectedLocation.lat }}, {{ selectedLocation.lon }}</p>
-    </div>
-
-  </div>
-
-  <div class="sun-illustration col-md-6">
-    <img src="https://i.imgur.com/HLWn2v8.png"  class="img-fluid rounded-start h-100 w-100" style="object-fit: contain;" alt="Sun illustration">
-  </div>
-    
-    
-  </div>
-</div> -->
-
-<!-- UV Index
-<div v-if="uvData" class="uv-index-card">
-  <div class="uv-card-content">
-    <div class="uv-info">
-      <h1 class="uv-index">{{ uvData.now.uvi }}</h1>
-      <p class="uv-label">Current UV Index</p>
-    </div>
-    <div class="time">
-      <p>Current Time: {{ currentTime }}</p>  
-      <p>You are in: {{ currentLocation }}</p>  
     </div>
   </div>
-</div> -->
-
-
 </template>
-  
-<script setup>
-import { ref, onMounted, onUnmounted, computed} from 'vue'
-import axios from 'axios'
 
-const query = ref('')
-const suggestions = ref([])
-const selectedLocation = ref(null)
-const uvData = ref(null);
-const currentTime = ref('')
-const currentLocation = ref ('')
-const index = ref(0);
+<script>
+import { ref, computed, onMounted, onUnmounted, nextTick } from "vue";
+import axios from "axios";
+import { Chart, registerables } from "chart.js";
 
-const backgrounds = [
-  "https://media-public.canva.com/PaCm0/MAFqXFPaCm0/1/s2.jpg",
-  "https://media-public.canva.com/dXils/MAGIx_dXils/1/s3.jpg",
-  ""
-];
+Chart.register(...registerables);
 
-let intervalId = null;
+export default {
+  setup() {
+    const query = ref(""); 
+    const suggestions = ref([]);
+    const selectedLocation = ref(null);
+    const uvData = ref(null); 
+    const chartInstance = ref(null);
+    const uvChart = ref(null); 
 
-const changeBackground = () => {
-  intervalId = setInterval(() => {
-    index.value = (index.value + 1) % backgrounds.length;
-  }, 5000);
+    const backgrounds = [
+      "https://media-public.canva.com/PaCm0/MAFqXFPaCm0/1/s2.jpg",
+      "https://media-public.canva.com/dXils/MAGIx_dXils/1/s3.jpg",
+    ];
+    const index = ref(0);
+
+    const backgroundStyle = computed(() => ({
+      backgroundImage: `url(${backgrounds[index.value]})`,
+    }));
+
+    const uvLevels = [
+      { color: "#00FF00", text: "Low (0-2)" },
+      { color: "#FFFF00", text: "Moderate (3-5)" },
+      { color: "#FFA500", text: "High (6-7)" },
+      { color: "#FF4500", text: "Very High (8-10)" },
+      { color: "#9400D3", text: "Extreme (11+)" },
+    ];
+
+    const getUvColor = (uvi) => {
+      if (uvi <= 2) return "#00FF00";
+      if (uvi <= 5) return "#FFFF00";
+      if (uvi <= 7) return "#FFA500";
+      if (uvi <= 10) return "#FF4500";
+      return "#9400D3";
+    };
+
+    const getUvLevel = (uvi) => {
+      if (uvi <= 2) return "Low";
+      if (uvi <= 5) return "Moderate";
+      if (uvi <= 7) return "High";
+      if (uvi <= 10) return "Very High";
+      return "Extreme";
+    };
+
+    const searchLocations = async () => {
+      if (query.value.length < 3) {
+        suggestions.value = [];
+        return;
+      }
+      try {
+        const response = await axios.get(
+          "https://nominatim.openstreetmap.org/search",
+          {
+            params: {
+              q: query.value,
+              format: "json",
+              countrycodes: "au",
+              limit: 5,
+            },
+          }
+        );
+        suggestions.value = response.data;
+      } catch (error) {
+        console.error("Error fetching locations:", error);
+      }
+    };
+
+    const selectLocation = (location) => {
+      selectedLocation.value = location;
+      query.value = location.display_name;
+      suggestions.value = [];
+      fetchUvIndex();
+    };
+
+    const fetchUvIndex = async () => {
+      const latitude = selectedLocation.value?.lat || -37.6943;
+      const longitude = selectedLocation.value?.lon || 145.3469;
+
+      try {
+        const response = await axios.get(
+          "https://t9icxjys0j.execute-api.ap-southeast-2.amazonaws.com/dev/api/v1/uvi",
+          {
+            params: { latitude, longitude },
+          }
+        );
+        uvData.value = response.data;
+
+        console.log("Current UV Index:", uvData.value.now.uvi);
+
+        await nextTick();
+        drawChart();
+      } catch (error) {
+        console.error("Error fetching UV index:", error);
+      }
+    };
+
+    const drawChart = () => {
+      if (chartInstance.value) {
+        chartInstance.value.destroy();
+      }
+
+      const ctx = uvChart.value?.getContext("2d");
+      if (!ctx) {
+        console.error("Failed to get canvas context");
+        return;
+      }
+
+      const forecastData = uvData.value.forecast.map((d) => ({
+        x: new Date(d.time).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+        y: d.uvi,
+      }));
+
+      chartInstance.value = new Chart(ctx, {
+        type: "line",
+        data: {
+          datasets: [
+            {
+              label: "UV Index",
+              data: forecastData,
+              borderColor: "#FF4500",
+              backgroundColor: "rgba(255, 69, 0, 0.2)",
+              fill: true,
+              tension: 0.3,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              display: true,
+            },
+          },
+          scales: {
+            x: {
+              type: "category",
+              labels: forecastData.map((d) => d.x),
+            },
+          },
+        },
+      });
+    };
+
+    onMounted(() => {
+      setInterval(() => {
+        index.value = (index.value + 1) % backgrounds.length;
+      }, 5000);
+    });
+
+    onUnmounted(() => {
+      if (chartInstance.value) {
+        chartInstance.value.destroy();
+      }
+    });
+
+    return {
+      query,
+      suggestions,
+      uvData,
+      uvChart,
+      backgroundStyle,
+      searchLocations,
+      selectLocation,
+      getUvColor,
+      getUvLevel,
+      uvLevels,
+    };
+  },
 };
+</script>
 
-const backgroundStyle = computed(() => ({
-  backgroundImage: `url(${backgrounds[index.value]})`
-}));
-
-
-const searchLocations = async () => {
-  if (query.value.length < 3) {
-    suggestions.value = []
-    return
-  }
-
-  try {
-    const response = await axios.get("https://nominatim.openstreetmap.org/search", {
-      params: {
-        q: query.value,
-        format: 'json',
-        countrycodes: 'au',
-        limit: 5
-      },
-    })
-    console.log(response.data)
-    suggestions.value = response.data
-  } catch (error) {
-    console.error("Error fetching locations", error)
-  }
+<style scoped>
+.desc-container {
+  max-width: 100%;
+  background-color: #ffffff;
+  position: relative;
+  margin: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-// Select a location from the suggestions
-const selectLocation = (location) => {
+.img-bg {
+  object-fit: cover;
+  width: 100%;
+  height: 600px;
+  transition: background-image 1s ease-in-out;
+}
 
-    selectedLocation.value = location
-    query.value = location.display_name
-    suggestions.value = []
-    fetchUvIndex()
-    currentLocation.value = query.value
-    // fetchUvIndex()
-  }
-
-  // Fetch UV index data
-  // After clicking the search button, this function will be called
-const fetchUvIndex = async () => {
-
-  const defaultLat = -37.6943;
-  const defaultLon = 145.3469;
-
-  const latitude = selectedLocation.value?.lat || defaultLat;
-  const longitude = selectedLocation.value?.lon || defaultLon;
-  currentLocation.value = "Clayton, Melbourne, City of Monash, VIC, 3168, Australia / AU"
-
-  try {
-    const response = await axios.get(
-      "https://t9icxjys0j.execute-api.ap-southeast-2.amazonaws.com/dev/api/v1/uvi",
-      {
-        params: {
-          latitude: latitude,
-          longitude: longitude,
-        },
-      }
-    );
-    uvData.value = response.data;
-
-    const now = new Date();
-    currentTime.value = now.toLocaleTimeString();
-
-    console.log("UV Index Data:", uvData.value);
-  } catch (error) {
-    console.error("Error fetching UV index", error);
-  }
-};
-
-onMounted(() => {
-  fetchUvIndex();
-  changeBackground();
-});
-
-onUnmounted(() => {
-  clearInterval(intervalId);
-})
-
-</script>
-  
-  <style scoped>
-
-  .desc-container {
-    max-width: 100%;
-    /* left: 200px; */
-    border: 1px solid #ffffff;
-    background-color: #ffffff;
-    position: relative;
-    margin: auto;
-
-  }
-
-  .welcome-title {
+.welcome-title {
     font-size: 3.5rem;
     font-weight: 500;
     margin-bottom: 20px;
@@ -242,112 +288,55 @@ onUnmounted(() => {
     left: 60px;
   }
 
-  .search-container {
-    position: absolute;
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 2rem;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    background-color: #c3e6f2;
-  }
+.search-box {
+  display: flex;
+  gap: 10px;
+  margin: 20px auto;
+  max-width: 800px;
+  align-items: center;
+  padding: 10px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
-  .search-content {
-    max-width: 50%;
-  }
+.search-input {
+  flex: 1;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+}
 
-  .search-title {
-    font-size: 2.8rem;
-    font-weight: 500;
-    margin-bottom: 20px;
-    line-height: 1.2;
-    color: #000;
-  }
+.search-btn {
+  width: 50px;
+  height: 50px;
+  background-color: #c3e6f2;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  .highlight {
-    color: #000;
-    font-weight: 800;
-  }
+.search-btn img {
+  width: 80%;
+  height: 80%;
+}
 
-  .stats-container {
-    display: flex;
-    align-items: center;
-    margin-bottom: 25px;
-  }
-
-  .stat-item h2 {
-    font-size: 2rem;
-    margin: 0;
-    font-weight: bold;
-  }
-
-  .stat-item p {
-    font-size: 1rem;
-    margin: 0;
-    color: #6c757d;
-  }
-
-  .search-box {
-    display: flex;
-    /* align-items: center; */
-    margin-top: 40px;
-    background: #fff;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    width: 80%;
-    height: 40px;
-    z-index: 1000;
-    position: absolute;
-    bottom: 150px;
-    left: 10%;
-    right: 10%;
-  }
-
-  .img-bg {
-    object-fit: cover; width: 100%; height: 600px; transition: background-image 1s ease-in-out;
-  }
-
-  .search-input {
-    display: flex;
-    padding: 8px 12px 12px 12px;
-    margin-bottom: 10px;
-    font-size: 16px;
-    border: none;
-    outline: none;
-    padding-bottom: 8px;
-  }
-  
-  .search-btn {
-    background-color: #c3e6f2;
-    /* margin: 0 auto; */
-    margin-left: 80px;
-    margin-top: 1px;
-    width: 38px;
-    height: 38px;
-    /* border-radius: 10px; */
-    border-radius: 10px;
-    display: flex;
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-  }
-
-  .search-btn:hover {
-    background-color: #a0e3f9;
-  }
-
-  .suggestions {
+.suggestions {
   list-style-type: none;
   padding: 0;
   margin-top: 5px;
   border: 1px solid #ccc;
   border-radius: 5px;
   background: #fff;
-  width: 30%;
-  position: absolute;
-  top: 350px;
-  left: 100px;
+  width: 80%;
+  max-width: 800px;
+  margin: 10px auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .suggestions li {
@@ -360,41 +349,108 @@ onUnmounted(() => {
   background-color: #a0e3f9;
 }
 
-.uv-index-card {
-  max-width: 1000px;
-  margin: 2rem auto;
-  padding: 1.5rem;
+.uv-container {
+  width: 100%; 
+  padding: 20px;
+  margin-top: 40px;
+  background-color: #f9f9f9;
   border-radius: 10px;
-  background-color: #c3e6f2;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  font-family: Arial, sans-serif;
-}
-
-.uv-card-content {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.uv-info {
-  margin-bottom: 1rem;
+.uv-index-top {
+  display: flex;
+  justify-content: center; 
+  width: 100%;
+  max-width: 1200px;
+  gap: 20px; 
+  margin-bottom: 30px;
 }
 
-.uv-index {
-  font-size: 3rem;
+.uv-index-display {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  border: 4px solid #ccc;
+  border-radius: 10px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.uv-index-display h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+.uv-index-value {
+  font-size: 48px;
   font-weight: bold;
-  margin: 0;
+  margin-bottom: 10px;
 }
 
-.uv-label {
-  font-size: 1.2rem;
+.uv-index-label {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.uv-risk-scale {
+  flex: 1;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.uv-risk-scale h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+.uv-risk-level {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.uv-color-box {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.uv-level-text {
+  font-size: 16px;
   color: #333;
 }
 
-.time {
-  font-size: 1rem;
+.uv-chart {
+  width: auto;
+  max-width: 800px;
+  margin-top: 30px;
+  text-align: center;
+}
+
+.uv-chart h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
   color: #333;
 }
-  </style>
-  
+
+canvas {
+  display: block;
+  margin: 0 auto; 
+  width: 300%;
+  height: 300%;
+}
+</style>
