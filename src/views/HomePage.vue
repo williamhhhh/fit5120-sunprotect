@@ -88,7 +88,9 @@ export default {
 
     const backgrounds = [
       "https://media-public.canva.com/PaCm0/MAFqXFPaCm0/1/s2.jpg",
-      "https://media-public.canva.com/dXils/MAGIx_dXils/1/s3.jpg",
+      "https://media-public.canva.com/a7yEE/MAFqXFa7yEE/1/s2.jpg",
+      "https://media-public.canva.com/km9GA/MAFqXMkm9GA/1/s2.jpg",
+
     ];
     const index = ref(0);
 
@@ -245,6 +247,7 @@ export default {
     };
   },
 };
+
 </script>
 
 <style scoped>
@@ -264,6 +267,7 @@ export default {
   width: 100%;
   height: 600px;
   transition: background-image 1s ease-in-out;
+  background-position: center top -200px;
 }
 
 .welcome-title {
@@ -298,6 +302,8 @@ export default {
   background: #ffffff;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  top: 400px;
 }
 
 .search-input {
@@ -322,8 +328,16 @@ export default {
 }
 
 .search-btn img {
-  width: 80%;
-  height: 80%;
+  width: 60%;
+  height: 60%;
+}
+
+.search-btn:hover {
+  background-color: #a0e3f9;
+}
+
+.search-btn:active {
+  transform: scale(0.95);
 }
 
 .suggestions {
@@ -337,6 +351,8 @@ export default {
   max-width: 800px;
   margin: 10px auto;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative; 
+  top: 380px;
 }
 
 .suggestions li {
