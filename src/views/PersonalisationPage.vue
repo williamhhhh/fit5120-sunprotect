@@ -51,7 +51,7 @@
               {{ level.label }}
             </button>
         </div>
-        <button class="cta-button">Get Recommendations</button>
+        <!-- <button class="cta-button">Get Recommendations</button> -->
     </div>
     </div>
     </div>
@@ -195,7 +195,6 @@ const vitaminDRecommendation = computed(() => {
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
     justify-content: center;
-    width: 100%;
 }
 
 .skin-tone-button {
@@ -204,7 +203,6 @@ const vitaminDRecommendation = computed(() => {
     padding: 10px 20px;
     font-size: 16px;
     border-radius: 10px;
-    border: 2px solid #fff;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
 }
@@ -214,8 +212,7 @@ const vitaminDRecommendation = computed(() => {
 }
 
 .skin-tone-button.selected {
-    border-color: black !important;
-    border-color: black;
+    border-color: #12aadd;
     transform: scale(1.2);
     z-index: 1000;
 }
@@ -248,14 +245,15 @@ const vitaminDRecommendation = computed(() => {
     transition: all 0.2s ease-in-out;
 }
 
+
 .uv-button:hover {
     transform: scale(1.1);
 }
 
 .uv-button.selected {
-    background-color: #c3e6f2;
+    background-color: #c3e6f2 !important;
     border-color: black;
-    transform: scale(1.1);
+    transform: scale(1.1) !important;
 }
 
 .cta-button {
@@ -277,7 +275,7 @@ const vitaminDRecommendation = computed(() => {
 
 .wear-card, .vitamin-card {
     max-width: 300px;
-    height: 250px;
+    height: 200px;
   background: #c3e6f2;
   padding: 20px;
   border-radius: 10px;

@@ -3,6 +3,7 @@ import Home from '@/views/HomePage.vue'
 import Reminder from '@/views/ReminderPage.vue'
 import UVimpact from '@/views/UVimpactPage.vue'
 import ClothingRecommendation from '@/views/ClothingRecommendation.vue'
+import PersonalisationPage from '@/views/PersonalisationPage.vue'
 
 const routes = [
   {
@@ -28,7 +29,7 @@ const routes = [
   {
     path: '/personalisation',
     name:'Personalisation',
-    component: Personalisation,
+    component: PersonalisationPage,
   }
 ]
 
