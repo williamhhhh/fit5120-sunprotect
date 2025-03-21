@@ -30,7 +30,7 @@
             <tr>
               <td class="border border-gray-300 py-2 px-4">
                 <a
-                  href="https://www.amazon.com.au/s?k=UV-Blocking+Sunglasses&crid=3OFXK7FIC085O&sprefix=uv-blocking+sunglasses%2Caps%2C224&ref=nb_sb_noss_2"
+                  href="https://www.cancercouncilshop.org.au/collections/sunglasses"
                   target="_blank"
                   class="text-blue-600 hover:underline"
                 >
@@ -46,7 +46,7 @@
             <tr>
               <td class="border border-gray-300 py-2 px-4">
                 <a
-                  href="https://www.amazon.com.au/s?k=Sunscreen&crid=2TH3JBGE31LXW&sprefix=sunscreen%2Caps%2C321&ref=nb_sb_noss_1"
+                  href="https://www.cancercouncilshop.org.au/collections/sunscreen"
                   target="_blank"
                   class="text-blue-600 hover:underline"
                 >
@@ -62,7 +62,7 @@
             <tr>
               <td class="border border-gray-300 py-2 px-4">
                 <a
-                  href="https://www.amazon.com.au/s?k=Sun+Hat&crid=3UOJ3112SCON&sprefix=sun+hat%2Caps%2C232&ref=nb_sb_noss_1"
+                  href="https://www.cancercouncilshop.org.au/collections/hats"
                   target="_blank"
                   class="text-blue-600 hover:underline"
                 >
@@ -78,7 +78,7 @@
             <tr>
               <td class="border border-gray-300 py-2 px-4">
                 <a
-                  href="https://www.amazon.com.au/s?k=sun+protective+clothing&crid=2HUSCY04SITB&sprefix=Protective+Clothing%2Caps%2C240&ref=nb_sb_ss_ts-doa-p_2_19"
+                  href="https://www.cancercouncilshop.org.au/collections/activewear-clothing"
                   target="_blank"
                   class="text-blue-600 hover:underline"
                 >
