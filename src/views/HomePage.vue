@@ -7,7 +7,7 @@
         </h1>
         <p class="welcome-text col-md-6">
           SunAware is a web application that provides real-time UV index data
-          for Australian suburbs. Search for a suburb to get started!
+          for Australian suburbs. Type in a suburb and click search to find the real-time UV!
         </p>
       </div>
 

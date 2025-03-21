@@ -29,7 +29,7 @@
     </div>
 </div>
 
-<div class="uv-container">
+<div class="uv-container" id="uv-selection">
     <div class="row">
     <div class="col-md-5">
     <div class="illustration">
@@ -57,7 +57,7 @@
     </div>
 </div>
 
-<div class="recommendation-container">
+<div class="recommendation-container" id="recommendation">
     <div class="row">
         <div class="col-md-6">
             <div class = "wear-card">
@@ -157,10 +157,20 @@ const selectedTone = ref(null)
 
 const selectSkinTone = (tone) => {
     selectedTone.value = tone
+
+    const recommendationSection = document.getElementById("uv-container");
+  if (recommendationSection) {
+    recommendationSection.scrollIntoView({ behavior: "smooth" });
+  }
 }
 
 const selectUV = (level) => {
   selectedUV.value = level;
+
+  const recommendationSection = document.getElementById("recommendation");
+  if (recommendationSection) {
+    recommendationSection.scrollIntoView({ behavior: "smooth" });
+  }
 };
 
 const wearRecommendation = computed(() => {
