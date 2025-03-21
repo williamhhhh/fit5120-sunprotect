@@ -282,6 +282,7 @@ export default {
 
 .img-bg {
   object-fit: cover;
+  max-width: 1600px;
   width: 100%;
   height: 600px;
   transition: background-image 1s ease-in-out;
