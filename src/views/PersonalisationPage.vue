@@ -205,6 +205,7 @@ const vitaminDRecommendation = computed(() => {
     border-radius: 10px;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
+    border-color: #fff;
 }
 
 .skin-tone-button:hover {
@@ -212,7 +213,7 @@ const vitaminDRecommendation = computed(() => {
 }
 
 .skin-tone-button.selected {
-    border-color: #12aadd;
+    border-color: #7bd9f8;
     transform: scale(1.2);
     z-index: 1000;
 }
@@ -275,7 +276,7 @@ const vitaminDRecommendation = computed(() => {
 
 .wear-card, .vitamin-card {
     max-width: 300px;
-    height: 200px;
+    height: 210px;
   background: #c3e6f2;
   padding: 20px;
   border-radius: 10px;
