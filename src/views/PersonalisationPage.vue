@@ -18,7 +18,7 @@
               :key="tone"
               :style="{ backgroundColor: tone.color }"
               class="skin-tone-button"
-              :class="{ selected: selectedTone.label === tone.label }"
+              :class="{ selected: selectedTone === tone.label }"
               @click="selectSkinTone(tone)"
             ></button>
         </div>
