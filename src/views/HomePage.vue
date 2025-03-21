@@ -22,7 +22,7 @@
         <button
           type="submit"
           class="search-btn"
-          @click="searchUvIndex"
+          @click="handleSearch"
         >
           <img
             src="https://i.imgur.com/sijPEYJ.png"
@@ -78,6 +78,12 @@ import { Chart, registerables } from "chart.js";
 Chart.register(...registerables);
 
 export default {
+  methods: {
+    scrollToBottom() {
+      const footer = this.$refs.uvChart;
+      footer.scrollIntoView({ behavior: 'smooth' }); 
+    },
+  },
   setup() {
     const query = ref(""); 
     const suggestions = ref([]);
@@ -149,12 +155,15 @@ export default {
       selectedLocation.value = location;
       query.value = location.display_name;
       suggestions.value = [];
-      fetchUvIndex();
     };
 
     const fetchUvIndex = async () => {
-      const latitude = selectedLocation.value?.lat || -37.6943;
-      const longitude = selectedLocation.value?.lon || 145.3469;
+      if (!selectedLocation.value) {
+        console.error("No location selected for fetching UV index.");
+        return;
+      }
+      const latitude = selectedLocation.value.lat;
+      const longitude = selectedLocation.value.lon;
 
       try {
         const response = await axios.get(
@@ -172,6 +181,14 @@ export default {
       } catch (error) {
         console.error("Error fetching UV index:", error);
       }
+    };
+
+    const handleSearch = () => {
+      if (!selectedLocation.value) {
+        alert("Please select a location.");
+        return;
+      }
+      fetchUvIndex();
     };
 
     const drawChart = () => {
@@ -244,6 +261,7 @@ export default {
       getUvColor,
       getUvLevel,
       uvLevels,
+      handleSearch
     };
   },
 };
@@ -470,3 +488,4 @@ canvas {
   height: 300%;
 }
 </style>
+
